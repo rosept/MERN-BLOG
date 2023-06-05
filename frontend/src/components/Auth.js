@@ -27,7 +27,7 @@ const Auth = ({ isSignUp }) => {
 
   const sendRequest = (type = 'login') => new Promise(async (resolve, reject) => {
     try {
-      const res = await axios.post(`http://localhost:5000/api/user/${type}`, {
+      const res = await axios.post(`/api/user/${type}`, {
         name: inputs.name,
         email: inputs.email,
         password: inputs.password,
@@ -60,7 +60,7 @@ const Auth = ({ isSignUp }) => {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: error.response.data.message || 'Something went wrong!',
+          text: error.response && error.response.data && error.response.data.message ? error.response.data.message : 'Something went wrong!',
           timeout: 3000
         })
       })
@@ -83,7 +83,7 @@ const Auth = ({ isSignUp }) => {
           Swal.fire({
             icon: "error",
             title: "Error",
-            text: error.response.data.message || 'Something went wrong!',
+            text: error.response && error.response.data && error.response.data.message ? error.response.data.message : 'Something went wrong!',
             timeout: 3000
           })
         });

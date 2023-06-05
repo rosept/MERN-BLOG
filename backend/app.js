@@ -5,6 +5,11 @@ import router from './routes/user-routes.js';
 import cors from 'cors';
 import logger from 'morgan';
 import path from "path";
+import url from 'url'
+
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 const app = express();
 

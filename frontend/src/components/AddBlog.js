@@ -22,7 +22,7 @@ const AddBlog = () => {
 
   const sendRequest = async () => {
     try {
-      const res = await axios.post('/api/blog/add/', {
+      const res = await axios.post(process.env.NODE_ENV === 'development' ? `http://${window.location.hostname}:5000/api/blog/add/` : '/api/blog/add/', {
         title: inputs.title,
         description: inputs.description,
         image: inputs.imageURL,

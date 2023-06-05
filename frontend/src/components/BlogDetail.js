@@ -24,7 +24,7 @@ const BlogDetail = () => {
   };
 
   const fetchDetails = async () => {
-      const res = await axios.get(`/api/blog/${id}`)
+      const res = await axios.get(process.env.NODE_ENV === 'development' ? `http://${window.location.hostname}:5000/api/blog/${id}` : `/api/blog/${id}`)
        .catch((err) => console.log(err));
       const data = await res.data;
       return data;
@@ -42,7 +42,7 @@ const BlogDetail = () => {
 
 
   const sendRequest = async () => {
-      const res = await axios.put(`/api/blog/update/${id}`, {
+      const res = await axios.put(process.env.NODE_ENV === 'development' ? `http://${window.location.hostname}:5000/api/blog/update/${id}` : `/api/blog/update/${id}`, {
         title: inputs.title,
         description: inputs.description,
       })

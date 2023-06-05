@@ -7,7 +7,7 @@ const Blogs = () => {
 
   const sendRequest = async () => {
     try {
-      const res = await axios.get(`/api/blog`);
+      const res = await axios.get(process.env.NODE_ENV === 'development' ? `http://${window.location.hostname}:5000/api/blog` :`/api/blog`);
       const data = res.data;
       return data;
     } catch (error) {

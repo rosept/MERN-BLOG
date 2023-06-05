@@ -27,7 +27,7 @@ const Auth = ({ isSignUp }) => {
 
   const sendRequest = (type = 'login') => new Promise(async (resolve, reject) => {
     try {
-      const res = await axios.post(`/api/user/${type}`, {
+      const res = await axios.post(process.env.NODE_ENV === 'development' ? `http://${window.location.hostname}:5000/api/user${type}` : `/api/user/${type}`, {
         name: inputs.name,
         email: inputs.email,
         password: inputs.password,

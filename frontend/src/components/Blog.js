@@ -15,7 +15,7 @@ const Blog = ({title,description,imageURL,userName, isUser,id, time}) => {
    };
   const deleteRequest = () => new Promise(async(resolve, reject) => {
     try {
-      const res = await axios.delete(`/api/blog/${id}`)
+      const res = await axios.delete(process.env.NODE_ENV === 'development' ? `http://${window.location.hostname}:5000/api/blog/${id}` : `/api/blog/${id}`)
       const data = res.data;
       if (data) {
         await Swal.fire({

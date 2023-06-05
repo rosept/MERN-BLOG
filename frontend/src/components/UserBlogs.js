@@ -6,7 +6,7 @@ const UserBlogs = () => {
   const [user, setUser ] = useState()
   const id = localStorage.getItem("userId");
   const sendRequest = async () => {
-    const res = await axios.get(`/api/blog/user/${id}`)
+    const res = await axios.get(process.env.NODE_ENV === 'development' ? `http://${window.location.hostname}:5000/api/blog/user/${id}` : `/api/blog/user/${id}`)
     .catch(err=>console.log(err))
     const data = await res.data;
   return data

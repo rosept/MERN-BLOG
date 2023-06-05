@@ -1,5 +1,5 @@
 import express from 'express';
-import { addBlog, getAllBlogs, updateBlog, getById, deleteBlog, getByUserId} from '../controllers/blog-controller';
+import { addBlog, getAllBlogs, updateBlog, getById, deleteBlog, getByUserId} from '../controllers/blog-controller.js';
 
 
 

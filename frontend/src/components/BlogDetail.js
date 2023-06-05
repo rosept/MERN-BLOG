@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Typography, TextField, Button, InputLabel } from '@mui/material';
 import { Box } from '@mui/system';
 
+
 const labelStyles = { mb: 1, mt: 2, fontSize: '20px', fontWeight: 'bold' };
 
 const BlogDetail = () => {

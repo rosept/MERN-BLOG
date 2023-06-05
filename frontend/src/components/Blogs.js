@@ -35,7 +35,8 @@ const Blogs = () => {
           title={blog.title}
           description={blog.description}
           imageURL={blog.image}
-          userName={blog.user ? blog.user.name : ''} 
+          userName={blog.user ? blog.user.name : ''}
+          time={blog.timeposted} 
         />
       ))}
     </div>

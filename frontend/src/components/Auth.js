@@ -5,10 +5,11 @@ import { authActions } from "../store";
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Box, Button, TextField, Typography } from '@mui/material';
+import Swal from 'sweetalert2';
 
 
 
-const Auth = () => {
+const Auth = ({ isSignUp }) => {
   const navigate = useNavigate()
   const dispath = useDispatch();
   const [inputs, setInputs] = useState({
@@ -16,7 +17,6 @@ const Auth = () => {
     email: '',
     password: '',
   });
-  const [isSignup, setIsSignup] = useState(false);
 
   const handleChange = (e) => {
     setInputs((prevState) => ({
@@ -25,35 +25,68 @@ const Auth = () => {
     }));
   };
 
-  const sendRequest = async (type = 'login') => {
+  const sendRequest = (type = 'login') => new Promise(async (resolve, reject) => {
     try {
       const res = await axios.post(`http://localhost:5000/api/user/${type}`, {
         name: inputs.name,
         email: inputs.email,
         password: inputs.password,
       });
-  
+
       const data = await res.data;
       console.log(data);
-      return data;
-    } catch (err) {
-      console.log(err);
+      resolve(data);
+    } catch (error) {
+      reject(error);
     }
-  };
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
-    if (isSignup) {
-      sendRequest('signup').then((data) =>localStorage.setItem("userId",data.user._id))
-        .then(() => dispath(authActions.login())).then(()=>navigate("/blogs"))
-        .then((data) => console.log(data));
+    if (isSignUp) {
+      sendRequest('signup').then((data) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Signup Success',
+          text: 'Registered Successfully',
+          timeout: 2000
+        })
+        .then(() => {
+          navigate('/auth/login')
+        })
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.response.data.message || 'Something went wrong!',
+          timeout: 3000
+        })
+      })
+      // new Promise(res => {
+      //   console.log("DATA RECEIVED:", data)
+      //   // if (data) {
+      //   //   localStorage.setItem("userId", data.user._id)
+      //   // }
+      //   res()
+      // }))
+        // .then(() => dispath(authActions.login())).then(()=>navigate("/blogs"))
+        // .then((data) => console.log(data));
     } else {
       sendRequest()
         .then((data) =>localStorage.setItem("userId",data.user._id))
         .then(() => dispath(authActions.login()))
         .then(()=>navigate("/blogs"))
-        .then((data) => console.log(data));
+        .then((data) => console.log(data))
+        .catch((error) => {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: error.response.data.message || 'Something went wrong!',
+            timeout: 3000
+          })
+        });
     }
   };
 
@@ -74,9 +107,9 @@ const Auth = () => {
           sx={{ backgroundColor: 'pink', padding: 'pink' }}
         >
           <Typography variant="h5" padding={3} textAlign="center" sx={{ color: 'black' }}>
-            {isSignup ? 'Signup' : 'Login'}
+            {isSignUp ? 'Signup' : 'Login'}
           </Typography>
-          {isSignup && (
+          {isSignUp && (
             <TextField name="name" onChange={handleChange} value={inputs.name} placeholder="Name" margin="normal" textColor="inherit" />
           )}
           <TextField name="email" onChange={handleChange} value={inputs.email} type="email" placeholder="Email" margin="normal" sx={{ color: 'pink' }} />
@@ -93,8 +126,8 @@ const Auth = () => {
           <Button type="submit" sx={{ borderRadius: 1, marginTop: 3, backgroundColor: 'black', color: 'pink' }}>
             Submit
           </Button>
-          <Button onClick={() => setIsSignup(!isSignup)} sx={{ marginTop: 1, color: 'black' }}>
-            Change To {isSignup ? 'Login' : 'Signup'}
+          <Button onClick={() => navigate(isSignUp ? '/auth/login' : '/auth/signup')} sx={{ marginTop: 1, color: 'black' }}>
+            Change To {isSignUp ? 'Login' : 'Signup'}
           </Button>
 
           <br />

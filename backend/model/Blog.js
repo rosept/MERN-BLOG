@@ -20,6 +20,10 @@ const blogSchema = new Schema({
         ref:"User",
         required: true,
     },
+    timeposted: {
+        type: Number,
+        default: Date.now()
+    }
 });
 
 export default mongoose.model("Blog", blogSchema);

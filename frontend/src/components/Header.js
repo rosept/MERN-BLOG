@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AppBar, Typography, Toolbar, Box, Button, Tabs, Tab } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { authActions } from "../store";
 
@@ -20,9 +20,9 @@ const Header = () => {
         {isLoggedIn && 
           <Box display="flex" marginLeft={'auto'} marginRight="auto" justifyContent="center" >
             <Tabs value={value} onChange={(e, value) => setvalue(value)}>
-              <Tab LinkComponent={Link} to="/blogs" label="All Blogs" />
-              <Tab LinkComponent={Link} to="/myBlogs" label="My Blogs" />
-              <Tab LinkComponent={Link} to="/blogs/add" label="Add Blog" />
+              <Tab LinkComponent={NavLink} to="/blogs" label="All Blogs" />
+              <Tab LinkComponent={NavLink} to="/myBlogs" label="My Blogs" />
+              <Tab LinkComponent={NavLink} to="/blogs/add" label="Add Blog" />
             </Tabs>
           </Box> }
 
@@ -31,8 +31,8 @@ const Header = () => {
              { !isLoggedIn && <> 
              
              <Button
-                LinkComponent={Link}
-                to="/auth"
+                LinkComponent={NavLink}
+                to="/auth/login"
                 variant='contained'
                 sx={{ margin: 1, borderRadius: 10, color: 'pink', backgroundColor: 'black' }}
               >
@@ -40,8 +40,8 @@ const Header = () => {
               </Button>
 
               <Button
-                LinkComponent={Link}
-                to="/auth"
+                LinkComponent={NavLink}
+                to="/auth/signup"
                 variant='contained'
                 sx={{ margin: 1, borderRadius: 10, color: 'pink', backgroundColor: 'black' }}
               >
@@ -52,7 +52,7 @@ const Header = () => {
             
             <Button 
               onClick={() =>dispath(authActions.logout())}
-              LinkComponent={Link}
+              LinkComponent={NavLink}
               to="/auth"
               variant='contained'
               sx={{ margin: 1, borderRadius: 10, color: 'pink', backgroundColor: 'black' }}
